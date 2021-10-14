@@ -12,66 +12,123 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-route::get('/', function() {
+
+Route::get('/', function () {
     return view('welcome');
 });
 
-route::get('about', function () {
-    return '<h1>Hello</h1>'
-    . '<br>Selamat datang di webapp saya</br>'
-    . '<br>Laravel, emang keren';
-
+//route basic
+Route::get('about', function () {
+    return '<h1>hello</h1>'
+    . 'selamat datang di webapp saya'
+    . 'laravel, emang keren';
 });
 
-Route::get('profile', function (){
-
-    $nama = "Abdul ";
-
-    return "Nama Saya adalah <b>$nama</b>";
-
+Route::get('profile', function () {
+    $nama = "uus";
+    return "nama saya adalah <b>$nama</b>";
 });
 
-Route::get('post/{id}', function($a) {
-   return "Halaman Post Ke - $a";
+//route parameter
+Route::get('post/{id}', function ($a) {
+    return view('post',['post' => $a]);
 });
-// buatlah route bernama bio dengan parameter
 
-Route::get('bio/{nama}/{umur}/{alamat}', function($a,$b,$c) {
-    return "Nama saya : $a
-    <br>umur saya : $b
-    <br>alamat saya : $c";
- });
+Route::get('biodata/{nama}/{umur}/{alamat}', function ($a,$b,$c) {
+    return "nama saya - $a"
+    ."<br>umur saya - $b"
+    ."<br>alamat - $c";
+});
 
- Route::get('page/{page?}', function ($hal = 1 ) {
-     return"Halaman <br>$hal</br>";
- });
- 
- route::get('pesan/{makan?}/{minum?}/{cemilan?}',
- function ($a = null, $b = null, $c = null){
- if ($a == null && $b == null && $c == null){
-     $pesan = "Anda Tidak Pesan, Silahkan Pulang!";
- }
- if ($a != null) {
-     $pesan = "Anda Memesan"
-         . "<br>Makanan : <b>$a</b>"; 
- }
- if ($a != null && $b != null){
-     $pesan = "Anda Memesan"
-     . "<br>Makanan : <b>$a</b>"
-     . "<br>Minuman : <b>$b</b>";
- }
- if ($a != null && $b != null && $c != null){
-     $pesan = "Anda Memesan"
-     . "<br>Makanan : <b>$a</b>"
-     . "<br>Minuman : <b>$b</b>"
-     . "<br>Cemilan : <b>$c</b>";
- }
- return $pesan;
- });
- 
+Route::get('bio/{nama}/{umur}/{alamat}', function ($a,$b,$c) {
+    return view('bio', compact('a','b','c'));
+});
+
+Route::get('blog',function () {
+    $posts= [
+        ['id' => 1, 'title' => 'lorem ipsum 1', 'content' => 'content ke satu'],
+        ['id' => 2, 'title' => 'lorem ipsum 2', 'content' => 'content ke dua'],
+        ['id' => 3, 'title' => 'lorem ipsum 3', 'content' => 'content ke tiga']
+    ];
+    return view('blog',compact('posts'));
+});
+
+Route::get('format', function(){
+    $data =[
+        ['id' => 1, 'name' => 'Nazwan','username' => 'nazwan','email' => 'nazwan@gmail.com' ,'alamat' => 'bandung','mapel'=>[
+            'mapel1' => 'Matematika',
+            'mapel2' => 'Fisika',
+            'mapel3' => 'Kimia'
+
+        ]],
+        ['id' => 2, 'name' => 'rehan','username' => 'rehan','email' => 'rehan@gmail.com' ,'alamat' => 'bandung','mapel'=>[
+            'mapel1' => 'Matematika',
+            'mapel2' => 'Fisika',
+            'mapel3' => 'Kimia'
+
+        ]],
+        ['id' => 3, 'name' => 'adit','username' => 'adit','email' => 'adit@gmail.com' ,'alamat' => 'bandung','mapel'=>[
+            'mapel1' => 'Matematika',
+            'mapel2' => 'Fisika',
+            'mapel3' => 'Kimia'
+
+        ]],
+        ['id' => 4, 'name' => 'palah','username' => 'palah','email' => 'palah@gmail.com' ,'alamat' => 'bandung','mapel'=>[
+            'mapel1' => 'Matematika',
+            'mapel2' => 'Fisika',
+            'mapel3' => 'Kimia'
+
+        ]],
+        ['id' => 5, 'name' => 'jojo','username' => 'jojo','email' => 'jojo@gmail.com' ,'alamat' => 'bandung','mapel'=>[
+            'mapel1' => 'Matematika',
+            'mapel2' => 'Fisika',
+            'mapel3' => 'Kimia'
+
+        ]],
+
+    ];
+    return view ('format' , compact('data'));
+});
 
 
 
+//route optional para
+Route::get('page/{page}', function ($hal = 1) {
+    return "halaman <b>$hal</b>";
+});
+
+Route::get('pesan/{makan?}/{minum?}/{cemilan?}',
+ function ($a = null, $b = null, $c = null) {
+     if ($a == null && $b == null && $c == null){
+         $pesan = "anda tidak pesan, silahkan pulang";
+     }
+     if ($a != null){
+        $pesan = "anda memesan"
+        . "<br>makan   :  <b>$a</b>";
+    }
+     if ($a != null && $b != null){
+        $pesan = "anda memesan"
+        . "<br>makan   :  <b>$a</b>"
+        . "<br>minum   :  <b>$b</b>";
+    }
+     if ($a != null && $b != null && $c != null){
+         $pesan = "anda memesan"
+         . "<br>makan   :  <b>$a</b>"
+         . "<br>minum   :  <b>$b</b>"
+         . "<br>cemilan :  <b>$c</b>";
+     }
+     return $pesan;
+});
+
+Route::get('biodata', function () {
+    $nama = "uus";
+    $umur = "12 thn";
+    $alamat = "cedok city";
+    $sekolah = "smk atuh";
+    $kelas = "kelas a ajah";
+    $hobi = "banyak tidur biar banyak mimpi";
+    return view('biodata', compact('nama','umur','alamat','sekolah','kelas','hobi'));
+});
 
 
 
